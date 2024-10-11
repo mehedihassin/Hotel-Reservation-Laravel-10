@@ -42,9 +42,11 @@ class AdminController extends Controller
             'wifi' => 'nullable',
             'food' => 'nullable',
             'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
         ]);
 
 
+         // Create a new room instance
         $room = new Room();
         $room->room_title = $request->room_title;
         $room->description = $request->description;
@@ -55,17 +57,46 @@ class AdminController extends Controller
         $room->wifi = $request->wifi;
         $room->food = $request->food;
 
-
         if ($request->hasFile('image')) {
+            if ($room->image) {
+                $oldImagePath = public_path('uploads/images/rooms/' . $room->image);
+                if (file_exists($oldImagePath)) {
+                    unlink($oldImagePath);
+                }
+            }
+
+            // Upload the new main image
             $image = $request->file('image');
-            $file_extention = $image->extension();
-            $file_name = Carbon::now()->timestamp . '.' . $file_extention;
+            $file_extension = $image->extension();
+            $file_name = Carbon::now()->timestamp . '.' . $file_extension;
             $this->GenerateBrandThumbailsImage($image, $file_name);
             $room->image = $file_name;
         }
 
-        $room->save();
+        // Handle multiple gallery images
+        if ($request->hasFile('images')) {
+            if ($room->images) {
+                $previousGalleryImages = json_decode($room->images);
+                foreach ($previousGalleryImages as $prevImage) {
+                    $prevImagePath = public_path('uploads/images/rooms/thumbnails/' . $prevImage);
+                    if (file_exists($prevImagePath)) {
+                        unlink($prevImagePath);
+                    }
+                }
+            }
 
+            // Upload new gallery images
+            $galleryImages = [];
+            foreach ($request->file('images') as $galleryImage) {
+                $file_extension = $galleryImage->extension();
+                $file_name = Carbon::now()->timestamp . '_' . uniqid() . '.' . $file_extension;
+                $galleryImage->move(public_path('uploads/images/rooms/thumbnails'), $file_name);
+                $galleryImages[] = $file_name;
+            }
+            $room->images = json_encode($galleryImages);
+        }
+
+        $room->save();
         return redirect()->route('room.list')->with('success', 'Room created successfully!');
     }//End Method
 
@@ -83,56 +114,73 @@ class AdminController extends Controller
     public function room_update(Request $request, $id)
     {
 
-        $room = Room::findOrFail($id);
-        $request->validate([
-            'room_title' => 'required|string|max:255',
-            'description' => 'required|string',
-            'regular_price' => 'required',
-            'discount_price' => 'nullable',
-            'room_status' => 'required',
-            'room_type' => 'required|string',
-            'wifi' => 'nullable',
-            'food' => 'nullable',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-        ]);
+    $room = Room::findOrFail($id);
 
+    $request->validate([
+        'room_title' => 'required|string|max:255',
+        'description' => 'required|string',
+        'regular_price' => 'required',
+        'discount_price' => 'nullable',
+        'room_status' => 'required',
+        'room_type' => 'required|string',
+        'wifi' => 'nullable',
+        'food' => 'nullable',
+        'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        'images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
+    ]);
 
-        $room->room_title = $request->room_title;
-        $room->description = $request->description;
-        $room->regular_price = $request->regular_price;
-        $room->discount_price = $request->discount_price;
-        $room->room_status = $request->room_status;
-        $room->room_type = $request->room_type;
-        $room->wifi = $request->wifi;
-        $room->food = $request->food;
+    // Update room details
+    $room->room_title = $request->room_title;
+    $room->description = $request->description;
+    $room->regular_price = $request->regular_price;
+    $room->discount_price = $request->discount_price;
+    $room->room_status = $request->room_status;
+    $room->room_type = $request->room_type;
+    $room->wifi = $request->wifi;
+    $room->food = $request->food;
 
-
-        if ($request->hasFile('image')) {
-            if ($room->image && \Storage::exists('uploads/images/rooms/' . $room->image)) {
-                \Storage::delete('uploads/images/rooms/' . $room->image);
-            }
-
-
-            $image = $request->file('image');
-            $file_extention = $image->extension();
-            $file_name = Carbon::now()->timestamp . '.' . $file_extention;
-            $this->GenerateBrandThumbailsImage($image, $file_name);
-            $room->image = $file_name;
+    // Update the main image
+    if ($request->hasFile('image')) {
+        if ($room->image && \File::exists(public_path('uploads/images/rooms/' . $room->image))) {
+            \File::delete(public_path('uploads/images/rooms/' . $room->image));
         }
 
-
-        $room->save();
-
-        return redirect()->route('room.list')->with('success', 'Room updated successfully!');
+        // Upload the new main image
+        $image = $request->file('image');
+        $file_extension = $image->extension();
+        $file_name = Carbon::now()->timestamp . '.' . $file_extension;
+        $this->GenerateBrandThumbailsImage($image, $file_name);
+        $room->image = $file_name;
     }
 
+    // Handle multiple gallery images
+    if ($request->hasFile('images')) {
+        if ($room->images) {
+            $previousGalleryImages = json_decode($room->images);
+            foreach ($previousGalleryImages as $prevImage) {
+                $prevImagePath = public_path('uploads/images/rooms/thumbnails/' . $prevImage);
+                if (\File::exists($prevImagePath)) {
+                    \File::delete($prevImagePath);
+                }
+            }
+        }
 
+        // Upload new gallery images
+        $galleryImages = [];
+        foreach ($request->file('images') as $galleryImage) {
+            $file_extension = $galleryImage->extension();
+            $file_name = Carbon::now()->timestamp . '_' . uniqid() . '.' . $file_extension;
+            $galleryImage->move(public_path('uploads/images/rooms/thumbnails'), $file_name);
+            $galleryImages[] = $file_name;
+        }
+        $room->images = json_encode($galleryImages);
+        }
 
-    public function room_delete($id){
-        $data=Room::find($id);
-        $data->delete();
-        return redirect()->back()->with('status','Room Has Been delete Successfully');
-    }//End Method
+            $room->save();
+
+            return redirect()->route('room.list')->with('success', 'Room updated successfully!');
+        }//End Method
+
 
 
     public function admin_booking(){
@@ -161,9 +209,6 @@ class AdminController extends Controller
         return redirect()->back()->with('status',' Rejected');
 
     }//End method
-
-
-
 
     public function GenerateBrandThumbailsImage($image, $imageName){
         $destinationPath =public_path('uploads/images/rooms');

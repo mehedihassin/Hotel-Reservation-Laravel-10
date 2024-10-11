@@ -6,8 +6,9 @@
     "license": "MIT",
     "require": {
         "php": "^8.1",
-        "intervention/image-laravel":"^1.2",
         "guzzlehttp/guzzle": "^7.2",
+        "intervention/image": "^3.8",
+        "intervention/image-laravel": "^1.2",
         "laravel/framework": "^10.0",
         "laravel/jetstream": "^4.3",
         "laravel/sanctum": "^3.2",

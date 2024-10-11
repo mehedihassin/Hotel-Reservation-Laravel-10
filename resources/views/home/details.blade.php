@@ -5,21 +5,34 @@
 
 @section('content')
 
-
 <div class="container mt-5">
     <div class="row">
         <div class="col-md-12">
             <div class="titlepage">
                <h2>Our Room</h2>
-
             </div>
-         </div>
+        </div>
+
         <!-- Room Image Section -->
         <div class="col-md-6">
             <div class="room-image">
-                <img width="80%" src="{{ asset('uploads/images/rooms/' . $room->image) }}" class="img-fluid rounded">
-
+                <!-- Main Image Display -->
+                <img id="mainImage" width="80%" src="{{ asset('uploads/images/rooms/' . $room->image) }}" class="img-fluid rounded" alt="Room Main Image">
             </div>
+
+            <!-- Gallery Images Section -->
+            @if($room->images)
+                <div class="room-gallery mt-4">
+                    <h3>Gallery</h3>
+                    <div class="row">
+                        @foreach(json_decode($room->images) as $galleryImage)
+                            <div class="col-md-4 mb-3">
+                                <img src="{{ asset('uploads/images/rooms/thumbnails/' . $galleryImage) }}" class="img-fluid rounded gallery-thumbnail" alt="Gallery Image" style="cursor: pointer;">
+                            </div>
+                        @endforeach
+                    </div>
+                </div>
+            @endif
         </div>
 
         <!-- Room Details Section -->
@@ -49,11 +62,22 @@
     <div class="row mt-5">
         <div class="col-md-12">
             <h3>Amenities</h3>
-            <p>{{$room->description}}</p>
+            <p>{{ $room->description }}</p>
         </div>
     </div>
 </div>
 
+<!-- JavaScript to handle gallery image clicks -->
+<script>
+    const galleryThumbnails = document.querySelectorAll('.gallery-thumbnail');
+    const mainImage = document.getElementById('mainImage');
+
+    galleryThumbnails.forEach(thumbnail => {
+        thumbnail.addEventListener('click', function() {
+            mainImage.src = this.src;
+        });
+    });
+</script>
 
 
 @endsection

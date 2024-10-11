@@ -69,7 +69,7 @@
                     <label class="col-sm-3 form-control-label">Wifi</label>
                     <div class="col-sm-9">
                         <select id="wifi" name="wifi" class="form-control form-control-warning">
-                            <option value="">Select Wifi Option</option> <!-- Placeholder option -->
+                            <option value="">Select Wifi Option</option>
                             <option value="free" {{$data->wifi == 'free' ? 'selected' : '' }}>Free Wifi</option>
                             <option value="paid" {{$data->wifi == 'paid' ? 'selected' : '' }}>Paid Wifi</option>
                             <option value="none" {{$data->wifi == 'none' ? 'selected' : '' }}>No Wifi</option>
@@ -81,7 +81,7 @@
                     <label class="col-sm-3 form-control-label">Food</label>
                     <div class="col-sm-9">
                         <select id="food" name="food" class="form-control form-control-warning">
-                            <option value="">Select Food Option</option> <!-- Placeholder option -->
+                            <option value="">Select Food Option</option>
                             <option value="included" {{$data->food == 'included' ? 'selected' : '' }}>Food Included</option>
                             <option value="available" {{$data->food == 'available' ? 'selected' : '' }}>Food Available on Request</option>
                             <option value="none" {{$data->food == 'none' ? 'selected' : '' }}>No Food Provided</option>
@@ -89,19 +89,38 @@
                     </div>
                 </div>
 
-               <!-- Image Upload Field -->
-               <div id="imgpreview" class="form-group row">
-                <label class="col-sm-3 form-control-label">Upload Image</label>
-                <div class="col-sm-9">
-                    <!-- File Input -->
-                    <input type="file" id="myFile" name="image" accept="image/*" class="form-control" onchange="previewImage(event)">
+               <!-- Image Upload Field for Main Image -->
+                <div id="imgpreview" class="form-group row">
+                    <label class="col-sm-3 form-control-label">Upload Image</label>
+                    <div class="col-sm-9">
+                        <!-- File Input -->
+                        <input type="file" id="myFile" name="image" accept="image/*" class="form-control" onchange="previewImage(event)">
 
-                    <!-- Image Preview -->
-                    <img width="80" id="imagePreview" src="{{ asset('uploads/images/rooms/' . $data->image) }}" alt="Image Preview" class="mt-3" style="max-width: 200px; max-height: 200px;">
-
+                        <!-- Image Preview -->
+                        <img  id="imagePreview" src="{{ asset('uploads/images/rooms/' . $data->image) }}" alt="Image Preview" class="mt-3" style="max-width: 200px; max-height: 200px;">
+                    </div>
                 </div>
-            </div>
 
+                <!-- Multiple Image Upload Field for Gallery Images -->
+                <div id="imgpreview-multiple" class="form-group row">
+                    <label class="col-sm-3 form-control-label">Gallery Image</label>
+                    <div class="col-sm-9">
+                        <!-- File Input -->
+                        <input type="file" id="myFileMultiple" name="images[]" accept="image/*" class="form-control" multiple onchange="previewMultipleImages(event)">
+
+                        <!-- Existing Gallery Images Preview -->
+                        <div class="row mt-3">
+                            @foreach(json_decode($data->images) as $galleryImage)
+                                <div class="col-md-3 mb-3">
+                                    <img src="{{ asset('uploads/images/rooms/thumbnails/' . $galleryImage) }}" class="img-fluid rounded" style="max-width: 100px; max-height: 100px;" alt="Gallery Image">
+                                </div>
+                            @endforeach
+                        </div>
+
+                        <!-- New Image Previews -->
+                        <div id="multipleImagePreview" class="row mt-3"></div>
+                    </div>
+                </div>
 
 
                     <!-- Submit Button -->
@@ -124,18 +143,34 @@
 
   </div>
 
+  <script>
+function previewImage(event) {
+    const imagePreview = document.getElementById('imagePreview');
+    const file = event.target.files[0];
+    if (file) {
+        imagePreview.src = URL.createObjectURL(file);
+    }
+}
+
+function previewMultipleImages(event) {
+    const files = event.target.files;
+    const multipleImagePreview = document.getElementById('multipleImagePreview');
+    multipleImagePreview.innerHTML = '';
+
+    if (files.length > 0) {
+        Array.from(files).forEach(file => {
+            const imgElement = document.createElement('img');
+            imgElement.src = URL.createObjectURL(file);
+            imgElement.style.maxWidth = '100px';
+            imgElement.style.maxHeight = '100px';
+            imgElement.className = 'img-fluid rounded m-2';
+            multipleImagePreview.appendChild(imgElement);
+        });
+    }
+}
+
+  </script>
+
 @endsection
 
 
-<script>
-    <script>
-    function previewImage(event) {
-        const reader = new FileReader();
-        reader.onload = function() {
-            const output = document.getElementById('imagePreview');
-            output.src = reader.result;
-        };
-        reader.readAsDataURL(event.target.files[0]);
-    }
-</script>
-</script>
