@@ -73,6 +73,7 @@ tr {
                             <th class="th_deg">Status</th>
                             <th class="th_deg">Image</th>
                             <th class="th_deg">Delete</th>
+                            <th class="th_deg">Confermation</th>
                         </tr>
                     </thead>
 
@@ -90,7 +91,27 @@ tr {
                                 <td>{{ $data->room->room_title }}</td>
                                 <td>{{ $data->room->regular_price }}</td>
                                 <td>{{ $data->room->discount_price }}</td>
-                                <td>{{ $data->status }}</td>
+                                <td>
+                                    @if ($data->status == 'Approve')
+                                    <span style="color: skyblue">
+                                        Approved
+                                    </span>
+
+                                    @endif
+                                    @if ($data->status == 'Rejected')
+                                    <span style="color: red">
+                                       Rejected
+                                    </span>
+
+                                    @endif
+                                    @if ($data->status == 'waiting')
+                                    <span style="color:rgb(236, 236, 34)">
+                                       Waiting
+                                    </span>
+
+                                    @endif
+
+                                </td>
                                 <td>
                                     <img width="50" src="{{ asset('uploads/images/rooms/' . $data->room->image) }}" alt="">
 
@@ -104,6 +125,12 @@ tr {
                                            <button onclick="return confirm('Are You Sure Want To Delete This Data ?')" type="submit" class="btn btn-sm btn-danger">Delete</button>
                                         </div>
                                     </form>
+                                </td>
+                                <td>
+                                    <span>
+                                        <a class="btn btn-sm btn-info" href="{{route('admin.booking.confirm',['id'=>$data->id])}}">Approve</a>
+                                    </span>
+                                    <a class="btn btn-sm btn-danger" href="{{route('admin.booking.regected',['id'=>$data->id])}}">Rejected</a>
                                 </td>
 
 

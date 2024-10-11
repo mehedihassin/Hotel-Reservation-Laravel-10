@@ -144,7 +144,23 @@ class AdminController extends Controller
         $data=Booking::find($id);
         $data->delete();
         return redirect()->back()->with('status','Room Has Been delete Successfully');
-    }
+    }//End Method
+
+    public function admin_booking_confirm($id){
+        $booking=Booking::find($id);
+        $booking->status='Approve';
+        $booking->save();
+        return redirect()->back()->with('status','Approve Successfully');
+
+    }//End method
+
+    public function admin_booking_rejected($id){
+        $booking=Booking::find($id);
+        $booking->status='Rejected';
+        $booking->save();
+        return redirect()->back()->with('status',' Rejected');
+
+    }//End method
 
 
 

@@ -34,3 +34,5 @@ Route::post('/room/update/{id}',[AdminController::class,'room_update'])->name('r
 Route::delete('/room/delete/{id}',[AdminController::class,'room_delete'])->name('room.delete');
 Route::get('/admin/booking',[AdminController::class,'admin_booking'])->name('admin.booking');
 Route::delete('/admin/booking/delete/{id}',[AdminController::class,'admin_booking_delete'])->name('admin.booking.delete');
+Route::get('/admin/booking/confirm/{id}',[AdminController::class,'admin_booking_confirm'])->name('admin.booking.confirm');
+Route::get('/admin/booking/rejected/{id}',[AdminController::class,'admin_booking_rejected'])->name('admin.booking.regected');
