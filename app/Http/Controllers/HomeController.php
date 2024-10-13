@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Room;
 use App\Models\Booking;
+use App\Models\Contact;
+use App\Models\Gallary;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -46,6 +48,29 @@ class HomeController extends Controller
             $booking->save();
 
             return back()->with('success', 'Reservation successful!');
-        }
+        }//End Method
+
+
+        public function about(){
+            return view('home.about');
+        }//End Method
+
+
+        public function our_room(){
+            $data =Room::all();
+            return view('home.our-room',compact('data'));
+        }//End Method
+
+
+        public function gallery(){
+            $gimage =Gallary::all();
+            return view('home.gallery',compact('gimage'));
+        }//End Method
+
+
+        public function contact_us(){
+            $data =Contact::all();
+            return view('home.contact-us',compact('data'));
+        }//End Method
 
 }

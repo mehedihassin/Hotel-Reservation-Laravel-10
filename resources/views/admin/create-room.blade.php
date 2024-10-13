@@ -147,25 +147,16 @@
                     @error('images')
                     <span class="text-danger">{{ $message }}</span>
                    @enderror
-
                     <!-- Preview for Multiple Images -->
                     <div id="gallery" class="form-group row mt-3">
                         <div class="col-sm-9 offset-sm-3" id="multiple-image-preview"></div>
                     </div>
-
-
-
-
-
                     <!-- Submit Button -->
                   <div class="form-group row">
                     <div class="col-sm-9 ml-auto">
                       <button type="submit" class="btn btn-primary">Submit</button>
                     </div>
                   </div>
-
-
-
                 </form>
               </div>
             </div>

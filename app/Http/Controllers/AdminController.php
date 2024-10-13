@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Room;
 use App\Models\Booking;
+use App\Models\Contact;
+use App\Models\Gallary;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Intervention\Image\Laravel\Facades\Image;
@@ -21,14 +23,18 @@ class AdminController extends Controller
         }
     }//End Method
 
+
     public function home() {
         $data = Room::all();
-        return view('home.index', compact('data'));
+        $gimage = Gallary::all();
+        return view('home.index', compact('data','gimage'));
     }//End Method
+
 
     public function create_room(){
         return view('admin.create-room');
     }//End Method
+
 
     public function add_room(Request $request){
 
@@ -100,10 +106,12 @@ class AdminController extends Controller
         return redirect()->route('room.list')->with('success', 'Room created successfully!');
     }//End Method
 
+
     public function room_list(){
         $data=Room::all();
         return view('admin.room-list',compact('data'));
     }//End Method
+
 
     public function room_edit($id){
         $data=Room::find($id);
@@ -188,11 +196,13 @@ class AdminController extends Controller
         return view('admin.booking',compact('data'));
     }//End Method
 
+
     public function admin_booking_delete($id){
         $data=Booking::find($id);
         $data->delete();
         return redirect()->back()->with('status','Room Has Been delete Successfully');
     }//End Method
+
 
     public function admin_booking_confirm($id){
         $booking=Booking::find($id);
@@ -202,6 +212,7 @@ class AdminController extends Controller
 
     }//End method
 
+
     public function admin_booking_rejected($id){
         $booking=Booking::find($id);
         $booking->status='Rejected';
@@ -209,6 +220,97 @@ class AdminController extends Controller
         return redirect()->back()->with('status',' Rejected');
 
     }//End method
+
+
+
+    public function admin_gallery_create(){
+        return view('admin.gallery-create');
+    }//End Method
+
+
+
+    public function add_gallery(Request $request){
+
+        $request->validate([
+        'images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
+        ]);
+
+        // Handle multiple gallery images
+
+        $data = new Gallary();
+        if ($request->hasFile('images')) {
+            if ($data->images) {
+                $previousGalleryImages = json_decode($data->images);
+                foreach ($previousGalleryImages as $prevImage) {
+                    $prevImagePath = public_path('uploads/images/rooms/gallery/' . $prevImage);
+                    if (file_exists($prevImagePath)) {
+                        unlink($prevImagePath);
+                    }
+                }
+            }
+
+            // Upload new gallery images
+            $galleryImages = [];
+            foreach ($request->file('images') as $galleryImage) {
+                $file_extension = $galleryImage->extension();
+                $file_name = Carbon::now()->timestamp . '_' . uniqid() . '.' . $file_extension;
+                $galleryImage->move(public_path('uploads/images/rooms/gallery'), $file_name);
+                $galleryImages[] = $file_name;
+            }
+            $data->images = json_encode($galleryImages);
+        }
+
+        $data->save();
+        return redirect()->route('admin.gallery.view')->with('success', 'gallery created successfully!');
+    }//End method
+
+
+    public function admin_gallery_view(){
+        $data=Gallary::all();
+        return view('admin.gallery-view',compact('data'));
+    }//End Method
+
+    public function delete_gallery($id){
+        $data=Gallary::find($id);
+        $data->delete();
+        return redirect()->back()->with('success','Gallary Delete successfully');
+    }//End Method
+
+
+    public function contact_view(){
+        $data=Contact::all();
+        return view('admin.contact-view',compact('data'));
+    }//End Method
+
+    public function contact(Request $request){
+
+
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|max:255',
+            'phone' => 'required|string|max:15',
+            'message' => 'nullable|string'
+        ]);
+
+        $data = new Contact();
+        $data->name =$request->name;
+        $data->email =$request->email;
+        $data->phone =$request->phone;
+        $data->message =$request->message;
+        $data->save();
+
+        return redirect()->back()->with('success', 'Contact Successfully Submitted!');
+
+
+    }//End Method
+
+
+    public function contact_delete($id){
+        $data =Contact::find($id);
+        $data->delete();
+        return redirect()->back();
+    }//End Method
+
 
     public function GenerateBrandThumbailsImage($image, $imageName){
         $destinationPath =public_path('uploads/images/rooms');
@@ -218,8 +320,6 @@ class AdminController extends Controller
         $constraint->aspectRatio();
 
     })->save($destinationPath.'/'.$imageName);
-
-
     }//End Methiod
 
 }

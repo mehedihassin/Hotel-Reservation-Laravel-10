@@ -126,11 +126,16 @@
                   <ul id="exampledropdownDropdown" class="collapse list-unstyled ">
                     <li><a href="{{route('create.room')}}">Create Room</a></li>
                     <li><a href="{{route('room.list')}}">View Room</a></li>
-
                   </ul>
                 </li>
                 <li class="active"><a href="{{route('admin.booking')}}"> <i class="icon-home"></i>Booking </a></li>
-                <li><a href="login.html"> <i class="icon-logout"></i>Login page </a></li>
+                <li><a href="#exampledropdownDropdownn" aria-expanded="false" data-toggle="collapse"> <i class="icon-windows"></i>Gallery</a>
+                    <ul id="exampledropdownDropdownn" class="collapse list-unstyled ">
+                      <li><a href="{{route('admin.create.gallery')}}">Create Gellary</a></li>
+                      <li><a href="{{route('admin.gallery.view')}}">View Gallery</a></li>
+                    </ul>
+                  </li>
+                  <li class="active"><a href="{{route('contact.view')}}"> <i class="icon-home"></i>Show Contact Message</a></li>
         </ul><span class="heading">Extras</span>
         <ul class="list-unstyled">
           <li> <a href="#"> <i class="icon-settings"></i>Demo </a></li>

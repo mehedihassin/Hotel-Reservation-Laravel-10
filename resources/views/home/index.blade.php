@@ -125,46 +125,17 @@
           </div>
        </div>
        <div class="row">
+        @foreach ($gimage as $item)
+        @foreach (json_decode($item->images) as $img)
           <div class="col-md-3 col-sm-6">
              <div class="gallery_img">
-                <figure><img src="images/gallery1.jpg" alt="#"/></figure>
+                <figure>
+                    <img src="{{ asset('uploads/images/rooms/gallery/' . $img) }}" alt="Gallery Image" style="width: 100%; height: auto;" />
+                </figure>
              </div>
           </div>
-          <div class="col-md-3 col-sm-6">
-             <div class="gallery_img">
-                <figure><img src="images/gallery2.jpg" alt="#"/></figure>
-             </div>
-          </div>
-          <div class="col-md-3 col-sm-6">
-             <div class="gallery_img">
-                <figure><img src="images/gallery3.jpg" alt="#"/></figure>
-             </div>
-          </div>
-          <div class="col-md-3 col-sm-6">
-             <div class="gallery_img">
-                <figure><img src="images/gallery4.jpg" alt="#"/></figure>
-             </div>
-          </div>
-          <div class="col-md-3 col-sm-6">
-             <div class="gallery_img">
-                <figure><img src="images/gallery5.jpg" alt="#"/></figure>
-             </div>
-          </div>
-          <div class="col-md-3 col-sm-6">
-             <div class="gallery_img">
-                <figure><img src="images/gallery6.jpg" alt="#"/></figure>
-             </div>
-          </div>
-          <div class="col-md-3 col-sm-6">
-             <div class="gallery_img">
-                <figure><img src="images/gallery7.jpg" alt="#"/></figure>
-             </div>
-          </div>
-          <div class="col-md-3 col-sm-6">
-             <div class="gallery_img">
-                <figure><img src="images/gallery8.jpg" alt="#"/></figure>
-             </div>
-          </div>
+          @endforeach
+          @endforeach
        </div>
     </div>
  </div>
@@ -231,24 +202,42 @@
              </div>
           </div>
        </div>
+       @if(session('success'))
+       <div class="alert alert-success alert-dismissible fade show d-flex justify-content-between align-items-center" role="alert">
+           <span>{{ session('success') }}</span>
+           <div>
+               <button type="button" class="btn-close me-2" data-bs-dismiss="alert" aria-label="Close"></button>
+               <button type="button" class="btn btn-link" onclick="closeAlert(this)">X</button>
+           </div>
+       </div>
+   @endif
+   <script>
+    function closeAlert(button) {
+        var alert = button.closest('.alert');
+        alert.classList.remove('show');
+        alert.classList.add('fade');
+    }
+</script>
+
        <div class="row">
           <div class="col-md-6">
-             <form id="request" class="main_form">
+             <form action="{{route('contact')}}" class="main_form" method="POST">
+                @csrf
                 <div class="row">
                    <div class="col-md-12 ">
-                      <input class="contactus" placeholder="Name" type="type" name="Name">
+                      <input class="contactus" placeholder="Name" type="type" name="name">
                    </div>
                    <div class="col-md-12">
-                      <input class="contactus" placeholder="Email" type="type" name="Email">
+                      <input class="contactus" placeholder="Email" type="type" name="email">
                    </div>
                    <div class="col-md-12">
-                      <input class="contactus" placeholder="Phone Number" type="type" name="Phone Number">
+                      <input class="contactus" placeholder="Phone Number" type="type" name="phone">
                    </div>
                    <div class="col-md-12">
-                      <textarea class="textarea" placeholder="Message" type="type" Message="Name">Message</textarea>
+                      <textarea class="textarea" placeholder="Message" type="type" name="message"></textarea>
                    </div>
                    <div class="col-md-12">
-                      <button class="send_btn">Send</button>
+                      <button type="submit" class="send_btn">Send</button>
                    </div>
                 </div>
              </form>
