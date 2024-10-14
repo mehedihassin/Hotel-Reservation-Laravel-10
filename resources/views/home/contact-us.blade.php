@@ -15,7 +15,7 @@
        <div class="alert alert-success alert-dismissible fade show d-flex justify-content-between align-items-center" role="alert">
            <span>{{ session('success') }}</span>
            <div>
-               <button type="button" class="btn-close me-2" data-bs-dismiss="alert" aria-label="Close"></button>
+               {{-- <button type="button" class="btn-close me-2" data-bs-dismiss="alert" aria-label="Close"></button> --}}
                <button type="button" class="btn btn-link" onclick="closeAlert(this)">X</button>
            </div>
        </div>

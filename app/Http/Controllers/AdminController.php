@@ -9,6 +9,7 @@ use App\Models\Gallary;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Intervention\Image\Laravel\Facades\Image;
+use Illuminate\Notifications\Notification;
 
 class AdminController extends Controller
 {
@@ -309,6 +310,31 @@ class AdminController extends Controller
         $data =Contact::find($id);
         $data->delete();
         return redirect()->back();
+    }//End Method
+
+    public function contact_email($id){
+        $email=Contact::find($id);
+        return view('admin.email-view',compact('email'));
+    }//End Method
+
+
+    public function send_email(Request $request, $id){
+        $data = Contact::find($id);
+
+        if (!$data) {
+            return redirect()->back()->with('error', 'Contact not found.');
+        }
+
+        $details = [
+            'greeting' => $request->greeting,
+            'body' => $request->body,
+            'action_text' => $request->action_text,
+            'action_url' => $request->action_url,
+            'end_line' => $request->end_line,
+        ];
+        $data->notify(new \App\Notifications\SendEmailNotification($details));
+
+        return redirect()->back()->with('success', 'Email sent successfully.');
     }//End Method
 
 

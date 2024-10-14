@@ -54,3 +54,6 @@ Route::get('/our-room',[HomeController::class,'our_room'])->name('ourroom');
 Route::get('/gallery',[HomeController::class,'gallery'])->name('gallery');
 Route::get('/contact-us',[HomeController::class,'contact_us'])->name('contact.us');
 
+Route::get('/contact/Email/{id}',[AdminController::class,'contact_email'])->name('contact.email');
+Route::post('/Send/Email/{id}',[AdminController::class,'send_email'])->name('send.email');
+

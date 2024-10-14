@@ -32,6 +32,7 @@
                         <th class="th_deg">Phone No</th>
                         <th class="th_deg">Message</th>
                         <th class="th_deg">Action</th>
+                        <th class="th_deg">Send Email</th>
                     </tr>
                 </thead>
 
@@ -56,9 +57,12 @@
                         @csrf
                         @method('DELETE')
                         <div class="item text-danger delete">
-                           <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                           <button type="submit" class="btn btn-danger">Delete</button>
                         </div>
                     </form>
+                </td>
+                <td>
+                    <a class="btn btn-success" href="{{route('contact.email',['id'=>$data->id])}}">Send Email</a>
                 </td>
             </tr>
             @endforeach
