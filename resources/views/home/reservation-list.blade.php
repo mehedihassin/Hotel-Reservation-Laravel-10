@@ -1,6 +1,16 @@
-@extends('admin.admin-common')
+@extends('layouts.common')
 
 @section('content')
+
+@if (session('success'))
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        {{ session('success') }}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+@endif
+
 
 <style type="text/css">
 
@@ -26,11 +36,15 @@
 }
 
 .table td, .table th {
-    /* padding: 2.5rem; */
     vertical-align: middle;
     text-align: center;
+    max-width: 300px;
+    min-width: 150px;
+    word-wrap: break-word;
     overflow: hidden;
-    max-width: 200px;
+    white-space: normal;
+    padding: 0.75rem;
+    text-overflow: ellipsis;
 }
 
 tr {
@@ -41,11 +55,11 @@ tr {
     border: 2px solid black;
 }
 
-/* Ensure the table remains responsive */
 @media screen and (max-width: 768px) {
     .table td, .table th {
         padding: 1rem;
         font-size: 0.9rem;
+        white-space: normal;
     }
 }
 
@@ -61,7 +75,6 @@ tr {
                     <thead>
                         <tr>
                             <th class="th_deg">ID</th>
-                            <th class="th_deg">Room Id</th>
                             <th class="th_deg">Name</th>
                             <th class="th_deg">Email</th>
                             <th class="th_deg">Phone</th>
@@ -73,7 +86,6 @@ tr {
                             <th class="th_deg">Status</th>
                             <th class="th_deg">Image</th>
                             <th class="th_deg">Delete</th>
-                            <th class="th_deg">Confermation</th>
                         </tr>
                     </thead>
 
@@ -82,7 +94,6 @@ tr {
                         @foreach ($data as $data)
                             <tr>
                                 <td>{{ $i++ }}</td>
-                                <td>{{ $data->room_id }}</td>
                                 <td>{{ $data->name }}</td>
                                 <td>{{ $data->email }}</td>
                                 <td>{{ $data->phone }}</td>
@@ -109,9 +120,7 @@ tr {
                                     <span style="color:rgb(236, 236, 34)">
                                        Waiting
                                     </span>
-
                                     @endif
-
                                 </td>
                                 <td>
                                     @if($data->room && $data->room->image)
@@ -120,21 +129,16 @@ tr {
                                     <span>No Image Available</span>
                                 @endif
                                 </td>
-
                                 <td>
-                                    <form action="{{route('admin.booking.delete',['id'=>$data->id])}}" method="POST">
+                                    @if ($data->status == 'Approve')
+                                        <button class="btn btn-secondary" disabled>Approved</button>
+                                    @elseif ($data->status == 'Rejected' || $data->status == 'waiting')
+                                    <form action="{{ route('booking.confirmation.delete', ['id' => $data->id]) }}" method="POST" style="display:inline;" onsubmit="return confirmDelete();">
                                         @csrf
                                         @method('DELETE')
-                                        <div class="item text-danger delete">
-                                           <button onclick="return confirm('Are You Sure Want To Delete This Data ?')" type="submit" class="btn btn-sm btn-danger">Delete</button>
-                                        </div>
+                                        <button type="submit" class="btn btn-danger">Cancel</button>
                                     </form>
-                                </td>
-                                <td>
-                                    <span>
-                                        <a class="btn btn-sm btn-info" href="{{route('admin.booking.confirm',['id'=>$data->id])}}">Approve</a>
-                                    </span>
-                                    <a class="btn btn-sm btn-danger" href="{{route('admin.booking.regected',['id'=>$data->id])}}">Rejected</a>
+                                    @endif
                                 </td>
                             </tr>
                         @endforeach
@@ -144,6 +148,13 @@ tr {
       </div>
       </div>
   </div>
+
+  <script>
+    function confirmDelete() {
+        return confirm("Are you sure you want to delete this booking?");
+    }
+</script>
+
 @endsection
 
 

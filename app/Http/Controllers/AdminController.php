@@ -193,8 +193,8 @@ class AdminController extends Controller
 
 
     public function admin_booking(){
-        $data=Booking::all();
-        return view('admin.booking',compact('data'));
+        $data = Booking::with('room')->get();
+        return view('admin.booking', compact('data'));
     }//End Method
 
 

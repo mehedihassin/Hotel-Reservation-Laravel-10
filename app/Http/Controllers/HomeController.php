@@ -47,7 +47,7 @@ class HomeController extends Controller
             $booking->end_date = $request->end_date;
             $booking->save();
 
-            return back()->with('success', 'Reservation successful!');
+            return redirect()->route('booking.confirmation')->with('success', 'Your booking has been successfully submitted!');
         }//End Method
 
 
@@ -72,5 +72,27 @@ class HomeController extends Controller
             $data =Contact::all();
             return view('home.contact-us',compact('data'));
         }//End Method
+
+
+        public function resrvation_list(){
+            $data = Booking::with('room')->get();
+            return view('home.reservation-list', compact('data'));
+        }//End Method
+
+
+        public function booking_confarmation(){
+            return view('home.booking-confirmation');
+        }//End Method
+
+
+        public function booking_confarmation_delete($id){
+            $data=Booking::find($id);
+            $data->delete();
+            return redirect()->back()->with('success','Booking Cancle successfully');
+        }//End Method
+
+
+
+
 
 }

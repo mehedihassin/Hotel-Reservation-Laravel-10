@@ -23,6 +23,9 @@ Route::get('/',[AdminController::class,'home'])->name('font.home');
 Route::get('/room/detail/{id}',[HomeController::class,'room_details'])->name('room.details');
 Route::get('/room/booking/{id}',[HomeController::class,'room_booking'])->name('room.booking');
 Route::post('/room/add-booking/{id}',[HomeController::class,'add_booking'])->name('room.add.booking');
+Route::get('/reservation/list',[HomeController::class,'resrvation_list'])->name('reservetion.list');
+Route::get('/booking-confirmation',[HomeController::class,'booking_confarmation'])->name('booking.confirmation');
+Route::delete('/booking-confirmation/delete/{id}',[HomeController::class,'booking_confarmation_delete'])->name('booking.confirmation.delete');
 
 
 Route::get('/home',[AdminController::class,'index'])->name('home');
