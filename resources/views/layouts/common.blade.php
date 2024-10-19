@@ -59,21 +59,21 @@
                         </button>
                         <div class="collapse navbar-collapse" id="navbarsExample04">
                            <ul class="navbar-nav mr-auto">
-                              <li class="nav-item active">
-                                 <a class="nav-link" href="{{route('font.home')}}">Home</a>
-                              </li>
-                              <li class="nav-item">
-                                 <a class="nav-link" href="{{route('about')}}">About</a>
-                              </li>
-                              <li class="nav-item">
-                                 <a class="nav-link" href="{{route('ourroom')}}">Our room</a>
-                              </li>
-                              <li class="nav-item">
-                                 <a class="nav-link" href="{{route('gallery')}}">Gallery</a>
-                              </li>
-                              <li class="nav-item">
-                                 <a class="nav-link" href="{{route('contact.us')}}">Contact Us</a>
-                              </li>
+                            <li class="nav-item {{ request()->routeIs('font.home') ? 'active' : '' }}">
+                                <a class="nav-link" href="{{ route('font.home') }}">Home</a>
+                            </li>
+                            <li class="nav-item {{ request()->routeIs('about') ? 'active' : '' }}">
+                                <a class="nav-link" href="{{ route('about') }}">About</a>
+                            </li>
+                            <li class="nav-item {{ request()->routeIs('ourroom') ? 'active' : '' }}">
+                                <a class="nav-link" href="{{ route('ourroom') }}">Our Room</a>
+                            </li>
+                            <li class="nav-item {{ request()->routeIs('gallery') ? 'active' : '' }}">
+                                <a class="nav-link" href="{{ route('gallery') }}">Gallery</a>
+                            </li>
+                            <li class="nav-item {{ request()->routeIs('contact.us') ? 'active' : '' }}">
+                                <a class="nav-link" href="{{ route('contact.us') }}">Contact Us</a>
+                            </li>
 
                               <li class="nav-item">
                                 @if (Route::has('login'))
