@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Room;
+use App\Models\Video;
 use App\Models\Booking;
 use App\Models\Contact;
 use App\Models\Gallary;
@@ -90,6 +91,8 @@ class HomeController extends Controller
             $data->delete();
             return redirect()->back()->with('success','Booking Cancle successfully');
         }//End Method
+
+
 
 
 

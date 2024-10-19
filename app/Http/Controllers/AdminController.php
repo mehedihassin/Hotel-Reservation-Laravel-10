@@ -3,13 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Models\Room;
+use App\Models\Video;
 use App\Models\Booking;
 use App\Models\Contact;
 use App\Models\Gallary;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
-use Intervention\Image\Laravel\Facades\Image;
 use Illuminate\Notifications\Notification;
+use Intervention\Image\Laravel\Facades\Image;
 
 class AdminController extends Controller
 {
@@ -28,7 +29,8 @@ class AdminController extends Controller
     public function home() {
         $data = Room::all();
         $gimage = Gallary::all();
-        return view('home.index', compact('data','gimage'));
+        $videos=Video::all();
+        return view('home.index', compact('data','gimage','videos'));
     }//End Method
 
 

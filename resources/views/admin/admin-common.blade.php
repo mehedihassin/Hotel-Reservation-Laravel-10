@@ -135,6 +135,12 @@
                       <li><a href="{{route('admin.gallery.view')}}">View Gallery</a></li>
                     </ul>
                   </li>
+                <li><a href="#exampledropdownDropdownn1" aria-expanded="false" data-toggle="collapse"> <i class="icon-windows"></i>Slider Videos</a>
+                    <ul id="exampledropdownDropdownn1" class="collapse list-unstyled ">
+                      <li><a href="{{route('videos.create')}}">Create Videos</a></li>
+                      <li><a href="{{route('show.videos')}}">View videos</a></li>
+                    </ul>
+                  </li>
                   <li class="active"><a href="{{route('contact.view')}}"> <i class="icon-home"></i>Show Contact Message</a></li>
         </ul><span class="heading">Extras</span>
         <ul class="list-unstyled">

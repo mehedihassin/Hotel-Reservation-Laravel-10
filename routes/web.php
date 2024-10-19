@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\VideoController;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,6 +27,12 @@ Route::post('/room/add-booking/{id}',[HomeController::class,'add_booking'])->nam
 Route::get('/reservation/list',[HomeController::class,'resrvation_list'])->name('reservetion.list');
 Route::get('/booking-confirmation',[HomeController::class,'booking_confarmation'])->name('booking.confirmation');
 Route::delete('/booking-confirmation/delete/{id}',[HomeController::class,'booking_confarmation_delete'])->name('booking.confirmation.delete');
+
+Route::get('/videos/create', [VideoController::class, 'create'])->name('videos.create');
+Route::post('/videos/store', [VideoController::class, 'store'])->name('videos.store');
+Route::get('/videos/show', [VideoController::class, 'show_videos'])->name('show.videos');
+Route::delete('/videos/{id}', [VideoController::class, 'delete'])->name('videos.delete');
+
 
 
 Route::get('/home',[AdminController::class,'index'])->name('home');
