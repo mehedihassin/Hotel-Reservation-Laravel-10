@@ -90,7 +90,7 @@
 
     <div class="reservation-form">
         <div class="form-header">
-            <h2>Hotel Reservation</h2>
+            <h2>Reserve You Room</h2>
         </div>
 
         @if (session('error'))
@@ -110,10 +110,6 @@
                     </button>
                 </div>
             @endif
-
-
-
-
 
         <form action="{{route('room.add.booking',$id)}}" method="POST" enctype="multipart/form-data">
             @csrf

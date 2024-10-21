@@ -67,6 +67,11 @@ tr {
 
 
 <div class="page-content">
+    <div class="text-center py-5" style="background-color: #f8f9fa; border-radius: 10px; box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);">
+        <h1 class="display-4 fw-bold" style="color: #ff5e57;">Your Booking</h1>
+        <p class="lead text-muted">Manage your bookings with ease</p>
+    </div>
+    
       <div class="container-fluid">
         <div class="card-body">
 
@@ -85,7 +90,8 @@ tr {
                             <th class="th_deg">Discount Price</th>
                             <th class="th_deg">Status</th>
                             <th class="th_deg">Image</th>
-                            <th class="th_deg">Delete</th>
+                            <th class="th_deg">Cancel</th>
+                            <th class="th_deg">Make Payment</th>
                         </tr>
                     </thead>
 
@@ -139,6 +145,9 @@ tr {
                                         <button type="submit" class="btn btn-danger">Cancel</button>
                                     </form>
                                     @endif
+                                </td>
+                                <td>
+                                    <a class="btn btn-info" href="{{ URL('stripe') }}">Payment</a>
                                 </td>
                             </tr>
                         @endforeach

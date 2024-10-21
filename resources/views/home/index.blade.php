@@ -86,7 +86,7 @@
  <!-- end our_room -->
  <!-- gallery -->
  <div  class="gallery">
-    <div class="container">
+    <div class="">
        <div class="row">
           <div class="col-md-12">
              <div class="titlepage">

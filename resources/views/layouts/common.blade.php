@@ -29,7 +29,9 @@
       <!--[if lt IE 9]>
       <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script><![endif]-->
+
    </head>
+
    <!-- body -->
    <body class="main-layout">
       <!-- loader  -->
@@ -47,7 +49,7 @@
                      <div class="full">
                         <div class="center-desk">
                            <div class="logo">
-                              <a href="{{route('font.home')}}"><img src="{{asset('images/logo.png')}}" alt="#" /></a>
+                              <a href="{{route('font.home')}}"><img src="{{asset('images/logo5.png')}}" alt="#" /></a>
                            </div>
                         </div>
                      </div>
@@ -79,7 +81,7 @@
                                 @if (Route::has('login'))
                                     @auth
                                         <li class="nav-item">
-                                            <a class="nav-link" href="#">Profile</a>
+                                            <a class="nav-link" href="{{ route('view.profile') }}">Profile</a>
                                         </li>
                                         <li class="nav-item">
                                             <form method="POST" action="{{ route('logout') }}" style="display: inline;">
@@ -128,12 +130,11 @@
                   <div class="col-md-4">
                      <h3>Menu Link</h3>
                      <ul class="link_menu">
-                        <li class="active"><a href="#">Home</a></li>
-                        <li><a href="about.html"> about</a></li>
-                        <li><a href="room.html">Our Room</a></li>
-                        <li><a href="gallery.html">Gallery</a></li>
-                        <li><a href="blog.html">Blog</a></li>
-                        <li><a href="contact.html">Contact Us</a></li>
+                        <li class="nav-item {{ request()->routeIs('font.home') ? 'active' : '' }}"><a href="{{ route('font.home') }}">Home</a></li>
+                        <li class="nav-item {{ request()->routeIs('about') ? 'active' : '' }}"><a href="{{ route('about') }}"> about</a></li>
+                        <li class="nav-item {{ request()->routeIs('ourroom') ? 'active' : '' }}"><a href="{{ route('ourroom') }}">Our Room</a></li>
+                        <li class="nav-item {{ request()->routeIs('gallery') ? 'active' : '' }}"><a href="{{ route('gallery') }}">Gallery</a></li>
+                        <li class="nav-item {{ request()->routeIs('contact.us') ? 'active' : '' }}"><a href="{{ route('contact.us') }}">Contact Us</a></li>
                      </ul>
                   </div>
                   <div class="col-md-4">
@@ -176,5 +177,8 @@
       <!-- sidebar -->
       <script src="{{asset('js/jquery.mCustomScrollbar.concat.min.js')}}"></script>
       <script src="{{asset('js/custom.js')}}"></script>
+
+
+     
    </body>
 </html>

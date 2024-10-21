@@ -11,7 +11,7 @@ class VideoController extends Controller
     public function create()
     {
         return view('admin.video-create');
-    }//End Method
+    } //End Method
 
     public function store(Request $request)
     {
@@ -30,13 +30,14 @@ class VideoController extends Controller
         ]);
 
         return redirect()->route('show.videos')->with('success', 'Video uploaded successfully!');
-    }//End Method
+    } //End Method
 
 
-    public function show_videos(){
-        $data=Video::all();
-        return view('admin.show-videos',compact('data'));
-    }//End MEthod
+    public function show_videos()
+    {
+        $data = Video::all();
+        return view('admin.show-videos', compact('data'));
+    } //End MEthod
 
 
     public function delete($id)
@@ -49,7 +50,4 @@ class VideoController extends Controller
 
         return redirect()->back()->with('success', 'Video deleted successfully!');
     }
-
-
-
 }

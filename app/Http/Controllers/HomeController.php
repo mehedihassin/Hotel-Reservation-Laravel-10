@@ -9,6 +9,8 @@ use App\Models\Contact;
 use App\Models\Gallary;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Stripe;
+use Illuminate\Support\Facades\Session;
 
 class HomeController extends Controller
 {
@@ -104,6 +106,56 @@ class HomeController extends Controller
         $data->delete();
         return redirect()->back()->with('success', 'Booking Cancle successfully');
     } //End Method
+
+
+    public function stripe()
+    {
+        return view('home.stripe');
+    }//End Method
+
+    public function stripePost(Request $request)
+
+    {
+        Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
+        Stripe\Charge::create ([
+                "amount" => 100 * 100,
+                "currency" => "usd",
+                "source" => $request->stripeToken,
+                "description" => "Test payment from itsolutionstuff.com." 
+
+        ]);
+        Session::flash('success', 'Payment successful!');
+        return back();
+
+    }//End Method
+
+    public function view_profile(){
+        return view('home.profile-view');
+    }//End Method
+
+    public function update_profile(Request $request)
+    {
+        // Validate incoming request
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email,' . auth()->id(),
+            'phone' => 'nullable|string|max:15',
+        ]);
+    
+        // Get the authenticated user
+        $user = auth()->user();
+    
+        // Update the user's profile
+        $user->update([
+            'name' => $request->name,
+            'email' => $request->email,
+            'phone' => $request->phone,
+        ]);
+    
+        // Redirect back with a success message
+        return redirect()->back()->with('success', 'Profile updated successfully!');
+    }//End Method
+    
 
 
 
