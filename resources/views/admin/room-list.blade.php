@@ -52,7 +52,7 @@
             <tr>
                 <td>{{$i++}}</td>
                 <td>{{$data->room_title}}</td>
-                <td>{{!! Str::limit($data->description, 150) !!}}</td>
+                <td>{{ Str::limit($data->description, 50) }}</td>
                 <td>{{$data->regular_price}}</td>
                 <td>{{$data->discount_price}}</td>
                 <td>{{$data->room_status}}</td>

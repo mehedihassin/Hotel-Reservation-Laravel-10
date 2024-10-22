@@ -4,7 +4,7 @@
 
 @section('content')
 <section class="banner_main">
-    <div class="">
+    <div>
         <div id="videoCarousel" class="carousel slide" data-ride="carousel">
             <div class="carousel-inner">
                 @foreach ($videos as $index => $video)
@@ -14,8 +14,8 @@
                             Your browser does not support the video tag.
                         </video>
                         <div class="carousel-caption d-none d-md-block">
+                           <h1 class="text-danger"><img src="{{asset('images/logo5.png')}}" alt=""></h1>
                             <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-                            <h1 class="text-danger">{{ $video->title }}</h1>
                         </div>
                     </div>
                 @endforeach
@@ -58,8 +58,8 @@
        <div class="row">
           <div class="col-md-12">
              <div class="titlepage">
-                <h2>Our Room</h2>
-                <p>Lorem Ipsum available, but the majority have suffered </p>
+                <h2>Rooms & Suites</h2>
+                <p>A Home Away From Home </p>
              </div>
           </div>
        </div>
@@ -72,9 +72,6 @@
                 </div>
                 <div class="bed_room">
                    <h3>{{$room->room_title}}</h3>
-                   <p>Room Type: {{$room->room_type}} </p>
-                   <p>Room Status: {{$room->room_status}} </p>
-                   <h2 class="text-info">Discount Price: {{$room->regular_price}}</h2>
                    <a href="{{route('room.details',['id'=>$room->id])}}" class="btn btn-danger mt-2">See Details</a>
                 </div>
              </div>

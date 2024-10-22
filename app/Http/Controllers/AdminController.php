@@ -200,6 +200,29 @@ class AdminController extends Controller
     } //End Method
 
 
+    public function room_delete($id)
+    {
+        $room = Room::findOrFail($id);
+        if ($room->image && File::exists(public_path('uploads/images/rooms/' . $room->image))) {
+            File::delete(public_path('uploads/images/rooms/' . $room->image));
+        }
+
+        if ($room->images) {
+            $galleryImages = json_decode($room->images);
+            foreach ($galleryImages as $galleryImage) {
+                $imagePath = public_path('uploads/images/rooms/thumbnails/' . $galleryImage);
+                if (File::exists($imagePath)) {
+                    File::delete($imagePath);
+                }
+            }
+        }
+
+        $room->delete();
+
+        return redirect()->back()->with('success', 'Room deleted successfully!');
+    } //End Method
+
+
 
     public function admin_booking()
     {

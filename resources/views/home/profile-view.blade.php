@@ -1,6 +1,8 @@
 @extends('layouts.common')
 
 @section('content')
+
+
 <div class="container mt-5">
     <div class="row justify-content-center">
         <div class="col-md-10 col-lg-8">
@@ -10,6 +12,14 @@
                      style="background: linear-gradient(45deg, #d44b4b, #2575fc);">
                     <h2 class="mb-0">Update Profile</h2>
                 </div>
+
+                @if (Session::has('success'))
+                <div class="alert alert-success text-center">
+                    <a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
+                    <p>{{ Session::get('success') }}</p>
+                </div>
+                @endif
+
 
                 <div class="card-body p-5 bg-light">
                     <form method="POST" action="{{ route('update.profile') }}">

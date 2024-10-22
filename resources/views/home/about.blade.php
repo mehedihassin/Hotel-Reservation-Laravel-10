@@ -14,7 +14,7 @@
           </div>
           <div class="col-md-7">
              <div class="about_img">
-                <figure><img src="images/about.png" alt="#"/></figure>
+                <figure><img src="images/banner3.jpg" alt="#"/></figure>
              </div>
           </div>
        </div>

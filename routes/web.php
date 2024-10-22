@@ -36,8 +36,7 @@ Route::post('/videos/store', [VideoController::class, 'store'])->name('videos.st
 Route::get('/videos/show', [VideoController::class, 'show_videos'])->name('show.videos');
 Route::delete('/videos/{id}', [VideoController::class, 'delete'])->name('videos.delete');
 
-
-
+    
 Route::get('/home', [AdminController::class, 'index'])->name('home');
 Route::get('/create/room', [AdminController::class, 'create_room'])->name('create.room');
 Route::get('/room/list', [AdminController::class, 'room_list'])->name('room.list');
@@ -51,9 +50,8 @@ Route::get('/admin/booking', [AdminController::class, 'admin_booking'])->name('a
 Route::delete('/admin/booking/delete/{id}', [AdminController::class, 'admin_booking_delete'])->name('admin.booking.delete');
 Route::get('/admin/booking/confirm/{id}', [AdminController::class, 'admin_booking_confirm'])->name('admin.booking.confirm');
 Route::get('/admin/booking/rejected/{id}', [AdminController::class, 'admin_booking_rejected'])->name('admin.booking.regected');
+
 Route::get('/admin/gallery', [AdminController::class, 'admin_gallery_view'])->name('admin.gallery.view');
-
-
 Route::get('/admin/create/gallery', [AdminController::class, 'admin_gallery_create'])->name('admin.create.gallery');
 Route::post('/admin/add/gallery', [AdminController::class, 'add_gallery'])->name('admin.add.gallery');
 Route::delete('/admin/delete/gallery/{id}', [AdminController::class, 'delete_gallery'])->name('gallery.delete');
