@@ -79,7 +79,7 @@ tr {
                 <table class="table table-bordered border-dark">
                     <thead>
                         <tr>
-                            <th class="th_deg">ID</th>
+                            <th class="th_deg">Serial No</th>
                             <th class="th_deg">Name</th>
                             <th class="th_deg">Email</th>
                             <th class="th_deg">Phone</th>
